@@ -1,0 +1,426 @@
+[
+  {
+    "sku": "SNACK-ORG-001",
+    "name": "Organic Snack Bars",
+    "category": "snacks",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Food item; temperature sensitive"
+  },
+  {
+    "sku": "DETG-ECO-001",
+    "name": "Eco Detergent",
+    "category": "cleaning",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Household cleaning"
+  },
+  {
+    "sku": "SPNG-COMP-001",
+    "name": "Compostable Sponges",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen care"
+  },
+  {
+    "sku": "TB-BAM-001",
+    "name": "Bamboo Toothbrush",
+    "category": "hygiene",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Personal care"
+  },
+  {
+    "sku": "TP-NAT-001",
+    "name": "Natural Toothpaste",
+    "category": "hygiene",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Personal care"
+  },
+  {
+    "sku": "FILTER-WATER-001",
+    "name": "Water Filters",
+    "category": "water",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Home water"
+  },
+  {
+    "sku": "STRAW-KIT-001",
+    "name": "Reusable Straw Kit",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen/Travel"
+  },
+  {
+    "sku": "BRUSH-BTL-001",
+    "name": "Bottle Cleaning Brush",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen"
+  },
+  {
+    "sku": "COFF-FILTER-REUSE-001",
+    "name": "Reusable Coffee Filters",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen"
+  },
+  {
+    "sku": "COCOA-PWD-001",
+    "name": "Cocoa Powder",
+    "category": "pantry",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Food item"
+  },
+  {
+    "sku": "COFF-ORG-001",
+    "name": "Organic Coffee",
+    "category": "beverage",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Beverage (ground coffee)"
+  },
+  {
+    "sku": "TB-CASE-001",
+    "name": "Toothbrush Travel Case",
+    "category": "hygiene",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Personal care"
+  },
+  {
+    "sku": "STRAW-REUSE-002",
+    "name": "Reusable Straws",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen"
+  },
+  {
+    "sku": "APPLE-ORG-001",
+    "name": "Organic Apples",
+    "category": "produce",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Produce"
+  },
+  {
+    "sku": "BAG-PRODUCE-REUSE-001",
+    "name": "Reusable Produce Bags",
+    "category": "shopping",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen/Shopping"
+  },
+  {
+    "sku": "PEAR-ORG-001",
+    "name": "Organic Pears",
+    "category": "produce",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Produce"
+  },
+  {
+    "sku": "BAG-COMPOST-001",
+    "name": "Compostable Bags",
+    "category": "waste_management",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Waste management"
+  },
+  {
+    "sku": "FILTER-COMPOST-001",
+    "name": "Compost Bin Filters",
+    "category": "waste_management",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Waste management"
+  },
+  {
+    "sku": "RICE-ORG-001",
+    "name": "Organic Rice",
+    "category": "pantry",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Pantry staple"
+  },
+  {
+    "sku": "BAG-SHOP-REUSE-001",
+    "name": "Reusable Shopping Bag",
+    "category": "shopping",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Shopping"
+  },
+  {
+    "sku": "QUINOA-BULK-001",
+    "name": "Bulk Quinoa",
+    "category": "pantry",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Pantry"
+  },
+  {
+    "sku": "BIN-COMPOST-CT-001",
+    "name": "Countertop Compost Bin",
+    "category": "compost",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen/compost"
+  },
+  {
+    "sku": "PROT-VEGAN-001",
+    "name": "Vegan Protein Powder",
+    "category": "nutrition",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Nutrition"
+  },
+  {
+    "sku": "BOTTLE-SHAKER-001",
+    "name": "Shaker Bottle",
+    "category": "accessories",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Accessories"
+  },
+  {
+    "sku": "WRAP-BEES-001",
+    "name": "Beeswax Wraps",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen"
+  },
+  {
+    "sku": "CUTL-LUNCH-001",
+    "name": "Lunchbox Cutlery",
+    "category": "travel",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Travel"
+  },
+  {
+    "sku": "TEA-ORG-001",
+    "name": "Organic Tea",
+    "category": "beverage",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Beverage"
+  },
+  {
+    "sku": "MUG-CER-001",
+    "name": "Ceramic Mug",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen"
+  },
+  {
+    "sku": "PLATE-BIO-001",
+    "name": "Biodegradable Plates",
+    "category": "events",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Events"
+  },
+  {
+    "sku": "SOAP-HERBAL-001",
+    "name": "Herbal Soap",
+    "category": "hygiene",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Personal care"
+  },
+  {
+    "sku": "GEL-ALOE-001",
+    "name": "Aloe Vera Gel",
+    "category": "hygiene",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Personal care"
+  },
+  {
+    "sku": "CLOTH-BAMBOO-001",
+    "name": "Bamboo Face Cloths",
+    "category": "hygiene",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Personal care"
+  },
+  {
+    "sku": "FORK-COMPOST-001",
+    "name": "Compostable Forks",
+    "category": "events",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Events"
+  },
+  {
+    "sku": "CUP-COMPOST-001",
+    "name": "Compostable Cups",
+    "category": "events",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Events"
+  },
+  {
+    "sku": "BANANA-ORG-001",
+    "name": "Organic Bananas",
+    "category": "produce",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Produce"
+  },
+  {
+    "sku": "MANGO-ORG-001",
+    "name": "Organic Mangoes",
+    "category": "produce",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Produce"
+  },
+  {
+    "sku": "NBK-ECO-001",
+    "name": "Eco-friendly Notebook",
+    "category": "stationery",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Stationery"
+  },
+  {
+    "sku": "PAPER-RECYC-001",
+    "name": "Recycled Paper Pack",
+    "category": "stationery",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Stationery"
+  },
+  {
+    "sku": "HIGHL-PLANT-001",
+    "name": "Plant-Based Highlighters",
+    "category": "stationery",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Stationery"
+  },
+  {
+    "sku": "BAG-GROC-INS-001",
+    "name": "Insulated Grocery Bag",
+    "category": "shopping",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Shopping"
+  },
+  {
+    "sku": "LUNCHBOX-SS-001",
+    "name": "Stainless Steel Lunchbox",
+    "category": "lunchware",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Lunchware"
+  },
+  {
+    "sku": "CARROT-ORG-001",
+    "name": "Organic Carrots",
+    "category": "produce",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Produce"
+  },
+  {
+    "sku": "POTATO-ORG-001",
+    "name": "Organic Potatoes",
+    "category": "produce",
+    "is_perishable": true,
+    "return_window_days": 7,
+    "notes": "Produce"
+  },
+  {
+    "sku": "GLASS-CONTAINER-001",
+    "name": "Glass Food Containers",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen"
+  },
+  {
+    "sku": "SHEET-LAUNDRY-001",
+    "name": "Eco Laundry Sheets",
+    "category": "cleaning",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Detergent sheets"
+  },
+  {
+    "sku": "CUTL-BAMBOO-SET-001",
+    "name": "Bamboo Cutlery Set",
+    "category": "travel",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Travel/utensils"
+  },
+  {
+    "sku": "LIGHT-SOLAR-JAR-001",
+    "name": "Solar Jar Light",
+    "category": "home",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Solar home accessory"
+  },
+  {
+    "sku": "COMPOST-STARTER-001",
+    "name": "Compost Starter",
+    "category": "compost",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Composting aid"
+  },
+  {
+    "sku": "BOTTLE-SS-001",
+    "name": "Stainless Steel Water Bottle",
+    "category": "accessories",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Hydration"
+  },
+  {
+    "sku": "OATS-ORG-001",
+    "name": "Organic Oats",
+    "category": "pantry",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Pantry"
+  },
+  {
+    "sku": "SOAP-REFILL-001",
+    "name": "Refillable Hand Soap",
+    "category": "hygiene",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Personal care"
+  },
+  {
+    "sku": "BAG-SILICONE-001",
+    "name": "Silicone Food Bags",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen storage"
+  },
+  {
+    "sku": "STRAW-GLASS-001",
+    "name": "Glass Straw Set",
+    "category": "kitchen",
+    "is_perishable": false,
+    "return_window_days": 30,
+    "notes": "Kitchen/Drinkware"
+  }
+]

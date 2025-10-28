@@ -1,0 +1,62 @@
+# ============================================================================
+# Customer Support Service - Requirements File
+# ============================================================================
+# This file declares the Python dependencies required to run the Customer Support Service.
+#
+# Conventions
+# -----------
+# - Versions are pinned (==) for reproducibility across environments.
+# - Comments explain the role of each dependency in the stack.
+# - Keep this file minimal; avoid unused packages.
+#
+# Usage
+# -----
+# Install dependencies into a virtual environment:
+#     python -m venv .venv
+#     source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+#     pip install -r requirements.txt
+#
+# To update all dependencies in a controlled manner:
+#     pip install --upgrade -r requirements.txt
+# ============================================================================
+
+# --------------------------------------------------------------------------
+# Core dependencies
+# --------------------------------------------------------------------------
+openai==1.50.2                  # Official OpenAI client SDK for LLM calls
+httpx==0.27.2                   # HTTP client pinned for compatibility with OpenAI SDK
+python-dotenv==1.0.1            # Load environment variables from .env for configuration
+tomli==2.0.1                    # TOML parser for configuration files
+
+# --------------------------------------------------------------------------
+# Developer experience
+# --------------------------------------------------------------------------
+rich==13.9.4                    # Rich text and console rendering for improved CLI experience
+
+# --------------------------------------------------------------------------
+# Testing
+# --------------------------------------------------------------------------
+pytest==8.3.3                   # Unit testing framework for structural validation of outputs
+
+# --------------------------------------------------------------------------
+# Web API
+# --------------------------------------------------------------------------
+fastapi==0.115.0                # High-performance web framework for building the service API
+uvicorn[standard]==0.30.6       # Production-grade ASGI server used to run the FastAPI application
+pydantic==2.9.2                 # Data validation and type enforcement layer for structured API models
+
+# --------------------------------------------------------------------------
+# Retrieval-Augmented Generation (RAG) framework
+# --------------------------------------------------------------------------
+langchain==0.3.13               # Core framework for retrieval and document processing
+langchain-community==0.3.13     # Community module providing integrations for Chroma and loaders
+langchain-huggingface==0.2.0    # Integration for HuggingFace embeddings within LangChain
+chromadb==0.5.5                 # Vector database used for semantic search and contextual retrieval
+sentence-transformers==3.1.1    # Embedding model library powering multilingual vector representations
+onnxruntime==1.18.0             # Required by ChromaDB's default embedding function
+pysqlite3==0.5.4                # Bundled modern SQLite for Chroma
+
+# Note:
+# sentence-transformers automatically installs a compatible PyTorch build.
+# If your environment does not resolve it, install a torch wheel suitable
+# for your CPU or CUDA setup manually.

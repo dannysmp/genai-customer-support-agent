@@ -1,2 +1,16 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Treat Python files as UTF-8
+*.py text eol=lf
+
+# Ensure shell and config scripts have LF endings
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.css text eol=lf
+

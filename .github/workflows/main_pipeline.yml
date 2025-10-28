@@ -1,0 +1,231 @@
+# Workflow: Main Branch CI/CD Pipeline
+# Description: Executes on every push to `main`. Runs unit tests for customer support service, builds and deploys Docker images to AWS.
+
+name: Main Branch CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  main-test-and-deploy:
+    runs-on: ubuntu-latest
+    name: Main Pipeline
+
+    steps:
+      # ----------------------------
+      # Log CI/CD start
+      # ----------------------------
+      - name: Log start of CI/CD
+        run: |
+          echo "CI/CD initiated for this commit. Running validation and deployment..."
+
+      # ----------------------------
+      # Checkout and environment setup
+      # ----------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # ----------------------------
+      # Configure AWS credentials
+      # ----------------------------
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # ----------------------------
+      # Define service ports and backend URL
+      # ----------------------------
+      - name: Define BACKEND_BASE_URL and service ports
+        run: |
+          echo "BACKEND_PORT=${{ secrets.BACKEND_PORT }}" >> $GITHUB_ENV
+          echo "FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}" >> $GITHUB_ENV
+          echo "BACKEND_BASE_URL=http://${{ secrets.EC2_HOST }}:${{ secrets.BACKEND_PORT }}" >> $GITHUB_ENV
+          echo "CHROMA_HOST_DIR=/opt/chroma_store" >> $GITHUB_ENV
+          echo "CHROMA_CONTAINER_DIR=/customer-support-service/chroma_store" >> $GITHUB_ENV
+
+      # ----------------------------
+      # Run Customer Support Service tests
+      # ----------------------------
+      - name: Install dependencies for customer-support-service
+        run: |
+          cd customer-support-service
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install --no-cache-dir -r requirements.txt
+
+      - name: Start customer-support-service in background
+        run: |
+          cd customer-support-service
+          . .venv/bin/activate
+          export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          export S3_BUCKET=${{ secrets.S3_BUCKET }}
+          export AWS_REGION=${{ secrets.AWS_REGION }}
+          export PORT=${{ env.BACKEND_PORT }}
+          export HF_HOME="$PWD/.hf_cache"
+          export TRANSFORMERS_CACHE="$PWD/.hf_cache/transformers"
+          export SENTENCE_TRANSFORMERS_HOME="$PWD/.hf_cache/sbert"
+          nohup uvicorn app:app --host=0.0.0.0 --port=${PORT} --log-level warning > uvicorn.log 2>&1 &
+          echo $! > .server_pid
+          sleep 5
+
+      - name: Wait for customer-support-service to be ready
+        run: |
+          for i in {1..20}; do
+            if curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ env.BACKEND_PORT }}/health | grep "200"; then
+              echo "The customer-support-service is ready"
+              break
+            fi
+            echo "Waiting for customer-support-service..."
+            sleep 5
+          done
+          if ! curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ env.BACKEND_PORT }}/health | grep "200"; then
+            echo "The customer-support-service failed to start in time"
+            [ -f customer-support-service/uvicorn.log ] && tail -n 200 customer-support-service/uvicorn.log || true
+            exit 1
+          fi
+
+      - name: Print Uvicorn logs if /health fails
+        if: failure()
+        run: |
+          echo "----- UVICORN LOGS (tail) -----"
+          [ -f customer-support-service/uvicorn.log ] && tail -n 200 customer-support-service/uvicorn.log || echo "no logs found"
+
+      - name: Run all unit tests for customer-support-service
+        run: |
+          cd customer-support-service
+          . .venv/bin/activate
+          export PYTHONPATH="$PWD"
+          echo "Running all Pytest files..."
+          pytest tests/ -v --disable-warnings --maxfail=1
+
+      - name: Stop customer-support-service and clean logs
+        if: always()
+        run: |
+          cd customer-support-service
+          if [ -f .server_pid ]; then
+            kill $(cat .server_pid) || true
+            rm -f .server_pid
+          else
+            pkill -f "uvicorn app:app" || true
+          fi
+          rm -f nohup.out uvicorn.log || true
+          rm -rf .hf_cache .pip_cache || true
+          find . -type d -name "__pycache__" -prune -exec rm -rf {} + || true
+          rm -rf .venv || true
+
+      # ----------------------------
+      # Clean up EC2 environment
+      # ----------------------------
+      - name: Clean Docker and system space in EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "Cleaning up unused Docker resources..."
+            echo "Containers to stop and remove:"
+            docker ps -a || true
+            echo "Stopping containers..."
+            docker stop customer-support-service || true
+            docker stop ui-service || true
+            echo "Removing containers..."
+            docker rm -f customer-support-service || true
+            docker rm -f ui-service || true
+            echo "Pruning unused Docker resources..."
+            docker system prune -af --volumes || true
+            docker builder prune -af || true
+            echo "Docker disk usage after prune:"
+            docker system df || true
+            echo "Cleanup completed."
+
+      # ----------------------------
+      # Docker build and push to ECR
+      # ----------------------------
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image for customer-support-service
+        run: |
+          echo "Building customer-support-service"
+          docker build --pull --no-cache \
+            -t ${{ secrets.ECR_CUSTOMER_SUPPORT_SERVICE_REPOSITORY }}:latest \
+            customer-support-service
+          docker push ${{ secrets.ECR_CUSTOMER_SUPPORT_SERVICE_REPOSITORY }}:latest
+
+      - name: Build and push Docker image for ui-service
+        run: |
+          echo "Building ui-service"
+          docker build --pull --no-cache \
+            --build-arg BACKEND_BASE_URL=${{ env.BACKEND_BASE_URL }} \
+            -t ${{ secrets.ECR_UI_SERVICE_REPOSITORY }}:latest \
+            ui-service
+          docker push ${{ secrets.ECR_UI_SERVICE_REPOSITORY }}:latest
+
+      # ----------------------------
+      # Deploy all services to EC2
+      # ----------------------------
+      - name: Deploy customer-support-service to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: BACKEND_PORT,CHROMA_HOST_DIR,CHROMA_CONTAINER_DIR
+          script: |
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_CUSTOMER_SUPPORT_SERVICE_REPOSITORY }}
+            docker pull ${{ secrets.ECR_CUSTOMER_SUPPORT_SERVICE_REPOSITORY }}:latest
+            mkdir -p ${CHROMA_HOST_DIR}
+            sudo chown -R 10001:10001 ${CHROMA_HOST_DIR}
+            docker run -d --name customer-support-service \
+              -p ${BACKEND_PORT}:${BACKEND_PORT} \
+              -v ${CHROMA_HOST_DIR}:${CHROMA_CONTAINER_DIR} \
+              -e OPENAI_API_KEY='${{ secrets.OPENAI_API_KEY }}' \
+              -e AWS_REGION='${{ secrets.AWS_REGION }}' \
+              -e S3_BUCKET='${{ secrets.S3_BUCKET }}' \
+              -e PORT=${BACKEND_PORT} \
+              -e RAG_CHROMA_DIR=${CHROMA_CONTAINER_DIR} \
+              ${{ secrets.ECR_CUSTOMER_SUPPORT_SERVICE_REPOSITORY }}:latest
+
+      - name: Deploy ui-service to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: FRONTEND_PORT,BACKEND_BASE_URL
+          script: |
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_UI_SERVICE_REPOSITORY }}
+            docker pull ${{ secrets.ECR_UI_SERVICE_REPOSITORY }}:latest
+            docker run -d --name ui-service \
+              -p ${FRONTEND_PORT}:${FRONTEND_PORT} \
+              -e BACKEND_BASE_URL=${BACKEND_BASE_URL} \
+              ${{ secrets.ECR_UI_SERVICE_REPOSITORY }}:latest
+
+      # ----------------------------
+      # Log CI/CD success
+      # ----------------------------
+      - name: Log success of CI/CD
+        if: success()
+        run: |
+          echo "CI/CD completed successfully. All services were deployed."
+
+      # ----------------------------
+      # Log CI/CD failure
+      # ----------------------------
+      - name: Log failure of CI/CD
+        if: failure()
+        run: |
+          echo "CI/CD failed. Please review the logs for troubleshooting."

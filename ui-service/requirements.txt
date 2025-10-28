@@ -1,0 +1,39 @@
+# ============================================================================
+# UI Service - Requirements File
+# ============================================================================
+# This file declares the Python dependencies required to run the UI Service.
+#
+# Conventions
+# -----------
+# - Versions are pinned (==) for reproducibility across environments.
+# - Comments explain the role of each dependency in the stack.
+# - Keep this file minimal; avoid unused packages.
+#
+# Usage
+# -----
+# Install dependencies into a virtual environment:
+#     python -m venv .venv
+#     source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+#     pip install -r requirements.txt
+#
+# To update all dependencies in a controlled manner:
+#     pip install --upgrade -r requirements.txt
+# ============================================================================
+
+# --------------------------------------------------------------------------
+# Core dependencies
+# --------------------------------------------------------------------------
+requests==2.32.3                 # HTTP client used to communicate with backend API
+streamlit==1.39.0                # Framework for building interactive web apps
+streamlit-autorefresh==1.0.1     # Lightweight module for periodic UI refreshes
+python-dotenv==1.0.1             # Load environment variables from .env if present
+
+# --------------------------------------------------------------------------
+# Developer experience
+# --------------------------------------------------------------------------
+rich==13.9.4                     # Rich text and console output
+
+# --------------------------------------------------------------------------
+# Testing
+# --------------------------------------------------------------------------
+pytest==8.3.3                    # Unit testing framework for integration and UI checks
