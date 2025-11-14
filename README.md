@@ -400,5 +400,3 @@ Together, these safeguards guarantee that the system operates consistently, secu
 
 - **Danny Martinez**
    - **Email**: danny.martinez@u.icesi.edu.co, stevenmartinez880@gmail.com
-- **Cristian Gonzalez**
-   - **Email**: cristian.gonzalez4@u.icesi.edu.co, crisdago18@gmail.com

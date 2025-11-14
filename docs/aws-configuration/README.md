@@ -379,5 +379,3 @@ Once configured, these secrets will allow your GitHub Actions workflows to:
 
 - **Danny Martinez**
    - **Email**: danny.martinez@u.icesi.edu.co, stevenmartinez880@gmail.com
-- **Cristian Gonzalez**
-   - **Email**: cristian.gonzalez4@u.icesi.edu.co, crisdago18@gmail.com
