@@ -58,7 +58,7 @@ RUN set -eux; \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     groupadd -g "${APP_GID}" "${APP_USER}"; \
-    useradd  -m -u "${APP_UID}" -g "${APP_GID}" -s /bin/bash "${APP_USER}"
+    useradd -m -u "${APP_UID}" -g "${APP_GID}" -s /bin/bash "${APP_USER}"
 
 # -----------------------------------------------------------------------------
 # Working directory and dependency installation
