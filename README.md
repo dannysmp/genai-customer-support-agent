@@ -135,7 +135,7 @@ Together, these services deliver a cohesive, containerized AI-powered support sy
 - **LangChain** orchestrates both the retrieval layer and the agent’s decision-making workflow.
 - **HuggingFace Embeddings** provide multilingual semantic encoding for cross-lingual comprehension.
 - **Agentic orchestration framework** built on modern LLM infrastructure, enabling deterministic and explainable conversational outputs across sessions.
-- The `customer-support-service`** must be running and reachable (`http://localhost:8000` by default) before launching the UI.
+- The `customer-support-service` must be running and reachable (`http://localhost:8000` by default) before launching the UI.
 - Environment variables are configured through `.env` files to ensure modular, environment-specific deployment:
   - `OPENAI_API_KEY` — Access key for the **OpenAI API** used by the reasoning and conversational model.
   - `BACKEND_BASE_URL` — Base URL of the backend API used by the UI to communicate with the `customer-support-service`.
