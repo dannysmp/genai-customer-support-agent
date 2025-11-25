@@ -372,7 +372,6 @@ You can access the full documentation and change history here:
 - [`docs/customer-support-solution/README.md`](./docs/customer-support-solution/README.md)
 - [`docs/customer-support-solution/CHANGELOG.md`](./docs/customer-support-solution/CHANGELOG.md)
 
-
 ## 📦 12. Notes
 
 - The system operates as a fully containerized, agentic customer support platform integrating both backend and frontend services. All interactions are executed deterministically within structured response contracts, ensuring traceability, stability, and reproducibility as prompts and configurations evolve.
